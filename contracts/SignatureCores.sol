@@ -82,7 +82,7 @@ contract Signature is SignatureBase {
         uint128 _updated_at
     )
         public
-        //onlyCEO
+        onlyCEO
         whenNotPaused
         returns (uint)
     {

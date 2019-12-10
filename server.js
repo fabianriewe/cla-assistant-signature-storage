@@ -6,6 +6,9 @@ module.exports = async function() {
   app.use(bodyParser.json());
   let instance = await Signature.deployed();
 
+  let accounts = await web3.eth.getAccounts();
+  const ceoAccount = accounts[0];
+
   app.get("/health", (req, res) => {
     res.json({ success: "true" });
   });
@@ -40,7 +43,8 @@ module.exports = async function() {
         user_id,
         comment_id,
         created_at,
-        updated_at
+        updated_at,
+        { from: ceoAccount }
       );
       let signatureId = parseInt(newId.logs[0].args.signatureId);
       console.log("CREATED AS ID: " + signatureId);
