@@ -1,13 +1,15 @@
 {
   "name": "cla-distributed",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "A distributed storage for digital signatures on the Ethereum-Blockchain",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve:api": "truffle exec server.js",
+    "serve:chain": "truffle develop"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Fabian Riewe",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1"
