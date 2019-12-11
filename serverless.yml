@@ -1,0 +1,46 @@
+service: cla-assitant-dapp
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: eu-central-1
+  profile: hrholding
+  timeout: 300
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "sqs:SendMessage"
+        - "sqs:GetQueueUrl"
+      Resource: "arn:aws:sqs:eu-central-1:941344685665:CLA-DAPP-DEV"
+    - Effect: "Allow"
+      Action:
+        - "sqs:ListQueues"
+      Resource: "arn:aws:sqs:eu-central-1:941344685665:CLA-DAPP-DEV"
+
+functions:
+  app:
+    handler: lambda.handler
+    events:
+      - http: ANY /
+      - http: "ANY {proxy+}"
+  createSignature:
+    handler: lambda.handler
+    events:
+      - http:
+          path: /webhook
+          method: post
+          async: false # default is false
+  signatureCreator:
+    handler: sqsWorker.handler
+    events:
+      - sqs:
+          arn: "arn:aws:sqs:eu-central-1:941344685665:CLA-DAPP-DEV"
+          batchSize: 1
+
+resources:
+  Resources:
+    MyQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "CLA-DAPP-DEV"
+        VisibilityTimeout: 600

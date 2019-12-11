@@ -2,17 +2,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const app = express();
 const truffle_connect = require("./connection/app.js");
 const Web3 = require("web3");
 require("dotenv").config();
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
+var aws = require("aws-sdk");
+var queueUrl =
+  "https://sqs.eu-central-1.amazonaws.com/941344685665/CLA-DAPP-DEV";
+// Instantiate SQS.
+var sqs = new aws.SQS();
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(awsServerlessExpressMiddleware.eventContext());
 
 app.get("/health", (req, res) => {
   res.json({ success: "true" });
@@ -42,7 +46,7 @@ app.get("/repos", async (req, res) => {
 });
 
 app.post("/webhook", async (req, res) => {
-  let newIds = [];
+  let signatures = [];
   for (let signature of req.body) {
     let username = signature.name;
     let user_id = signature.id;
@@ -51,18 +55,29 @@ app.post("/webhook", async (req, res) => {
     let pull_request_no = signature.pullRequestNo;
     let created_at = new Date(signature.created_at).getTime();
     let updated_at = new Date(signature.updated_at).getTime();
-    let signatureId = await truffle_connect.createSignature(
-      username,
-      user_id,
-      comment_id,
-      repo_id,
-      pull_request_no,
-      created_at,
-      updated_at
-    );
-    newIds.push(signatureId);
+    signatures.push({
+      username: username,
+      user_id: user_id,
+      comment_id: comment_id,
+      repo_id: repo_id,
+      pull_request_no: pull_request_no,
+      created_at: created_at,
+      updated_at: updated_at
+    });
   }
-  res.json({ success: true, created: newIds });
+  var params = {
+    MessageBody: JSON.stringify(signatures),
+    QueueUrl: queueUrl,
+    DelaySeconds: 0
+  };
+
+  sqs.sendMessage(params, function(err, data) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(data);
+    }
+  });
 });
 
 const mnemonic = process.env.MNEMONIC;
