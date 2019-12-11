@@ -6,11 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve:api": "truffle exec server.js",
+    "serve:ropsten": "truffle exec server.js --network ropsten",
     "serve:chain": "truffle develop"
   },
   "author": "Fabian Riewe",
   "license": "MIT",
   "dependencies": {
+    "@truffle/contract": "^4.1.1",
     "@truffle/hdwallet-provider": "^1.0.26",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",

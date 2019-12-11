@@ -8,15 +8,6 @@ contract SignatureBase is SignatureAccessControl {
     event Signed(string username, uint32 user_id, uint256 signatureId);
 
     struct Signature {
-        //[
-            //{
-                //"name": "ibakshay",
-                //"id": 33329946,
-                //"comment_id": 563929894,
-                //"created_at": "2019-12-10T08:48:13Z",
-                //"updated_at": "2019-12-10T08:48:13Z"
-            //}
-        //]
         // github username
         string username;
 
