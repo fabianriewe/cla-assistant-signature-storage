@@ -26,6 +26,9 @@ contract SignatureBase is SignatureAccessControl {
         // github comment_id.
         uint128 comment_id;
 
+        // github repo_id
+        uint128 repo_id;
+
         // timestamp of created_at and updated_at.
         uint128 created_at;
         uint128 updated_at;
@@ -36,6 +39,10 @@ contract SignatureBase is SignatureAccessControl {
     // @dev A mapping from owner address to count of tokens that address owns.
     //  Used internally inside balanceOf() to resolve ownership count.
     mapping (uint128 => Signature[]) _signaturesOf;
+
+    // @dev A mapping from owner address to count of tokens that address owns.
+    //  Used internally inside balanceOf() to resolve ownership count.
+    mapping (uint128 => Signature[]) _signaturesOfRepo;
     
     /// @dev An internal method that creates a new kitty and stores it. This
     ///  method doesn't do any checking and should only be called when the
@@ -44,12 +51,14 @@ contract SignatureBase is SignatureAccessControl {
     /// @param _username The kitty ID of the matron of this cat (zero for gen0)
     /// @param _user_id The kitty ID of the sire of this cat (zero for gen0)
     /// @param _comment_id The generation number of this cat, must be computed by caller.
+    /// @param _repo_id The github repo_id
     /// @param _created_at The kitty's genetic code.
     /// @param _updated_at The inital owner of this cat, must be non-zero (except for the unKitty, ID 0)
     function _createSignature(
         string memory _username,
         uint128 _user_id,
         uint128 _comment_id,
+        uint128 _repo_id,
         uint128 _created_at,
         uint128 _updated_at
     )
@@ -68,6 +77,7 @@ contract SignatureBase is SignatureAccessControl {
             username: _username,
             user_id: _user_id,
             comment_id: _comment_id,
+            repo_id: _repo_id,
             created_at: _created_at,
             updated_at: _updated_at
         });
@@ -89,6 +99,7 @@ contract SignatureBase is SignatureAccessControl {
         // transfer(cooAddress, newSignatureId);
 
         _signaturesOf[_user_id].push(_signature);
+        _signaturesOfRepo[_repo_id].push(_signature);
 
         return newSignatureId;
     }

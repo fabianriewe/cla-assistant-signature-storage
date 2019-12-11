@@ -45,6 +45,18 @@ contract Signature is SignatureBase {
     ) {
         signatures = _signaturesOf[_user_id];
     }
+
+    /// @notice Returns all the relevant information about a specific kitty.
+    /// @param _repo_id The ID of the repo of interest.
+    function getSignaturesOfRepo(uint128 _repo_id)
+        external
+        view
+        whenNotPaused
+        returns (
+        Signature[] memory signatures
+    ) {
+        signatures = _signaturesOfRepo[_repo_id];
+    }
     
     /// @notice Returns all the relevant information about a specific kitty.
     /// @param _id The ID of the kitty of interest.
@@ -72,12 +84,14 @@ contract Signature is SignatureBase {
     /// @param _username The kitty ID of the matron of this cat (zero for gen0)
     /// @param _user_id The kitty ID of the sire of this cat (zero for gen0)
     /// @param _comment_id The generation number of this cat, must be computed by caller.
+    /// @param _repo_id The github repo id
     /// @param _created_at The kitty's genetic code.
     /// @param _updated_at The inital owner of this cat, must be non-zero (except for the unKitty, ID 0)
     function createSignature(
         string memory _username,
         uint128 _user_id,
         uint128 _comment_id,
+        uint128 _repo_id,
         uint128 _created_at,
         uint128 _updated_at
     )
@@ -86,7 +100,7 @@ contract Signature is SignatureBase {
         whenNotPaused
         returns (uint)
     {
-        uint256 newSignatureId = _createSignature(_username, _user_id, _comment_id, _created_at, _updated_at);
+        uint256 newSignatureId = _createSignature(_username, _user_id, _comment_id, _repo_id, _created_at, _updated_at);
         return newSignatureId;
     }
 }
