@@ -47,12 +47,14 @@ app.get("/repos", async (req, res) => {
 
 app.post("/webhook", async (req, res) => {
   let signatures = [];
+  console.log(req.body);
   for (let signature of req.body) {
     let username = signature.name;
     let user_id = signature.id;
     let comment_id = signature.comment_id;
     let repo_id = signature.repoId;
     let pull_request_no = signature.pullRequestNo;
+    if (!pull_request_no) pull_request_no = 0; // temporary fix
     let created_at = new Date(signature.created_at).getTime();
     let updated_at = new Date(signature.updated_at).getTime();
     signatures.push({
