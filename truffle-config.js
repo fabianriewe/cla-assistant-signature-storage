@@ -18,12 +18,18 @@
  *
  */
 
-// const HDWalletProvider = require('truffle-hdwallet-provider');
-// const infuraKey = "fj4jll3k.....";
-//
-// const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+require("dotenv").config();
 
+const Web3 = require("web3");
+const web3 = new Web3();
+
+// const mnemonic = getEnv("ETH_WALLET_MNEMONIC");
+// const liveNetwork = getEnv("ETH_LIVE_NETWORK");
+// const liveNetworkId = getEnv("ETH_LIVE_NETWORK_ID");
+
+const mnemonic = process.env.MNEMONIC;
+const ropstenEndpoint = process.env.ROPSTEN;
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -46,7 +52,19 @@ module.exports = {
       host: "127.0.0.1", // Localhost (default: none)
       port: 9545, // Standard Ethereum port (default: none)
       network_id: "*" // Any network (default: none)
+    },
+    ropsten: {
+      provider: function() {
+        return new HDWalletProvider(mnemonic, ropstenEndpoint);
+      },
+      network_id: 3,
+      gasPrice: web3.utils.toWei("5", "gwei")
     }
+    // live: {
+    //   provider: () => new HDWalletProvider(mnemonic, liveNetwork),
+    //   network_id: liveNetworkId,
+    //   gasPrice: web3.utils.toWei("5", "gwei")
+    // }
 
     // Another network with more advanced options...
     // advanced: {
