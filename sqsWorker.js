@@ -4,15 +4,8 @@ const Web3 = require("web3");
 require("dotenv").config();
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
-// var aws = require("aws-sdk");
-// const queueUrl =
-//   "https://sqs.eu-central-1.amazonaws.com/941344685665/CLA-DAPP-DEV";
-// // Instantiate SQS.
-// var sqs = new aws.SQS();
-
 const mnemonic = process.env.MNEMONIC;
 const ropstenEndpoint = process.env.ROPSTEN;
-// fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
 truffle_connect.web3 = new Web3(
   new HDWalletProvider(mnemonic, ropstenEndpoint)
 );

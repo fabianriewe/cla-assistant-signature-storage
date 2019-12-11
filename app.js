@@ -9,9 +9,7 @@ require("dotenv").config();
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 var aws = require("aws-sdk");
-var queueUrl =
-  "https://sqs.eu-central-1.amazonaws.com/941344685665/CLA-DAPP-DEV";
-// Instantiate SQS.
+var queueUrl = process.env.SQS_QUEUE_URL;
 var sqs = new aws.SQS();
 
 app.use(cors());

@@ -5,7 +5,7 @@ provider:
   runtime: nodejs10.x
   region: eu-central-1
   profile: hrholding
-  timeout: 300
+  timeout: 30 # set timeout to same timeout as api gateway
   iamRoleStatements:
     - Effect: "Allow"
       Action:
