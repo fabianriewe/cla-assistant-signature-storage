@@ -1,4 +1,6 @@
 const app = require("express")();
+require("dotenv").config();
+const HDWalletProvider = require("@truffle/hdwallet-provider");
 const bodyParser = require("body-parser");
 const truffle_connect = require("./connection/app.js");
 const Web3 = require("web3");
@@ -57,9 +59,11 @@ app.post("/webhook", async (req, res) => {
 });
 
 app.listen(3000, () => {
+  const mnemonic = process.env.MNEMONIC;
+  const ropstenEndpoint = process.env.ROPSTEN;
   // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
   truffle_connect.web3 = new Web3(
-    new Web3.providers.HttpProvider("http://127.0.0.1:9545")
+    new HDWalletProvider(mnemonic, ropstenEndpoint)
   );
 
   console.log("CLA API running on: 3000");
