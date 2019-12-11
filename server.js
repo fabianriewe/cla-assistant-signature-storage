@@ -42,6 +42,7 @@ module.exports = async function() {
       let user_id = signature.id;
       let comment_id = signature.comment_id;
       let repo_id = signature.repoId;
+      let pull_request_no = signature.pullRequestNo;
       let created_at = new Date(signature.created_at).getTime();
       let updated_at = new Date(signature.updated_at).getTime();
       console.log("CREATING SIGNATURE FOR: " + username);
@@ -50,6 +51,7 @@ module.exports = async function() {
         user_id,
         comment_id,
         repo_id,
+        pull_request_no,
         created_at,
         updated_at,
         { from: ceoAccount }

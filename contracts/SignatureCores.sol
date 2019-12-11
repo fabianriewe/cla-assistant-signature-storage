@@ -36,7 +36,7 @@ contract Signature is SignatureBase {
 
     /// @notice Returns all the relevant information about a specific kitty.
     /// @param _user_id The ID of the user of interest.
-    function getSignaturesOf(uint128 _user_id)
+    function getSignaturesOf(uint32 _user_id)
         external
         view
         whenNotPaused
@@ -48,7 +48,7 @@ contract Signature is SignatureBase {
 
     /// @notice Returns all the relevant information about a specific kitty.
     /// @param _repo_id The ID of the repo of interest.
-    function getSignaturesOfRepo(uint128 _repo_id)
+    function getSignaturesOfRepo(uint32 _repo_id)
         external
         view
         whenNotPaused
@@ -66,8 +66,8 @@ contract Signature is SignatureBase {
         whenNotPaused
         returns (
         string memory username,
-        uint128 user_id,
-        uint128 created_at
+        uint32 user_id,
+        uint64 created_at
     ) {
         Signature storage signature = signatures[_id];
 
@@ -85,22 +85,24 @@ contract Signature is SignatureBase {
     /// @param _user_id The kitty ID of the sire of this cat (zero for gen0)
     /// @param _comment_id The generation number of this cat, must be computed by caller.
     /// @param _repo_id The github repo id
+    /// @param _pull_request_no  The pull request number of the repo
     /// @param _created_at The kitty's genetic code.
     /// @param _updated_at The inital owner of this cat, must be non-zero (except for the unKitty, ID 0)
     function createSignature(
         string memory _username,
-        uint128 _user_id,
-        uint128 _comment_id,
-        uint128 _repo_id,
-        uint128 _created_at,
-        uint128 _updated_at
+        uint32 _user_id,
+        uint32 _comment_id,
+        uint32 _repo_id,
+        uint32 _pull_request_no,
+        uint64 _created_at,
+        uint64 _updated_at
     )
         public
         onlyCEO
         whenNotPaused
         returns (uint)
     {
-        uint256 newSignatureId = _createSignature(_username, _user_id, _comment_id, _repo_id, _created_at, _updated_at);
+        uint256 newSignatureId = _createSignature(_username, _user_id, _comment_id, _repo_id, _pull_request_no,_created_at, _updated_at);
         return newSignatureId;
     }
 }
