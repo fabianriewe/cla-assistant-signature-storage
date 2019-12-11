@@ -1,11 +1,18 @@
-const app = require("express")();
-require("dotenv").config();
-const HDWalletProvider = require("@truffle/hdwallet-provider");
+"use strict";
+const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
+const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
+const app = express();
 const truffle_connect = require("./connection/app.js");
 const Web3 = require("web3");
+require("dotenv").config();
+const HDWalletProvider = require("@truffle/hdwallet-provider");
 
+app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(awsServerlessExpressMiddleware.eventContext());
 
 app.get("/health", (req, res) => {
   res.json({ success: "true" });
@@ -35,8 +42,8 @@ app.get("/repos", async (req, res) => {
 });
 
 app.post("/webhook", async (req, res) => {
-  newIds = [];
-  for (signature of req.body) {
+  let newIds = [];
+  for (let signature of req.body) {
     let username = signature.name;
     let user_id = signature.id;
     let comment_id = signature.comment_id;
@@ -58,13 +65,12 @@ app.post("/webhook", async (req, res) => {
   res.json({ success: true, created: newIds });
 });
 
-app.listen(3000, () => {
-  const mnemonic = process.env.MNEMONIC;
-  const ropstenEndpoint = process.env.ROPSTEN;
-  // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-  truffle_connect.web3 = new Web3(
-    new HDWalletProvider(mnemonic, ropstenEndpoint)
-  );
+const mnemonic = process.env.MNEMONIC;
+const ropstenEndpoint = process.env.ROPSTEN;
+// fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+truffle_connect.web3 = new Web3(
+  new HDWalletProvider(mnemonic, ropstenEndpoint)
+);
 
-  console.log("CLA API running on: 3000");
-});
+// Export your express server so you can import it in the lambda function.
+module.exports = app;
