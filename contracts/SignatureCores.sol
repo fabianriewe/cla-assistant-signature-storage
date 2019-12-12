@@ -34,19 +34,19 @@ contract Signature is SignatureBase {
         //);
     //}
 
-    /// @notice Returns all the relevant information about a specific kitty.
+    /// @notice Returns all the signature based on a user_id.
     /// @param _user_id The ID of the user of interest.
-    function getSignaturesOf(uint32 _user_id)
+    function getSignaturesOfUser(uint32 _user_id)
         external
         view
         whenNotPaused
         returns (
         Signature[] memory signatures
     ) {
-        signatures = _signaturesOf[_user_id];
+        signatures = _signaturesOfUser[_user_id];
     }
 
-    /// @notice Returns all the relevant information about a specific kitty.
+    /// @notice Returns all the signature based on a repo_id.
     /// @param _repo_id The ID of the repo of interest.
     function getSignaturesOfRepo(uint32 _repo_id)
         external
@@ -58,36 +58,25 @@ contract Signature is SignatureBase {
         signatures = _signaturesOfRepo[_repo_id];
     }
     
-    /// @notice Returns all the relevant information about a specific kitty.
-    /// @param _id The ID of the kitty of interest.
+    /// @notice Returns all the relevant information about a specific signature.
+    /// @param _id The ID of the signature of interest.
     function getSignature(uint256 _id)
         external
         view
         whenNotPaused
         returns (
-        string memory username,
-        uint32 user_id,
-        uint64 created_at
+        Signature memory signature
     ) {
         Signature storage signature = signatures[_id];
-
-        username = signature.username;
-        user_id = signature.user_id;
-        created_at = signature.created_at;
-        
     }
     
-    /// @dev An internal method that creates a new kitty and stores it. This
-    ///  method doesn't do any checking and should only be called when the
-    ///  input data is known to be valid. Will generate both a Birth event
-    ///  and a Transfer event.
-    /// @param _username The kitty ID of the matron of this cat (zero for gen0)
-    /// @param _user_id The kitty ID of the sire of this cat (zero for gen0)
-    /// @param _comment_id The generation number of this cat, must be computed by caller.
-    /// @param _repo_id The github repo id
-    /// @param _pull_request_no  The pull request number of the repo
-    /// @param _created_at The kitty's genetic code.
-    /// @param _updated_at The inital owner of this cat, must be non-zero (except for the unKitty, ID 0)
+    /// @param _username The GitHub username
+    /// @param _user_id The GtHub user_id
+    /// @param _comment_id The GutHub comment_id
+    /// @param _repo_id The GitHub repo_id
+    /// @param _pull_request_no The repo pull request no
+    /// @param _created_at The timestamp of creation.
+    /// @param _updated_at The timestamp of the last update.
     function createSignature(
         string memory _username,
         uint32 _user_id,

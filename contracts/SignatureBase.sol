@@ -1,7 +1,6 @@
 pragma solidity ^0.5.0;
 
 import "contracts/SignatureAccessControl.sol";
-//import "ERC721.sol";
 
 contract SignatureBase is SignatureAccessControl {
     
@@ -30,25 +29,22 @@ contract SignatureBase is SignatureAccessControl {
     
     Signature[] signatures;
 
-    // @dev A mapping from owner address to count of tokens that address owns.
-    //  Used internally inside balanceOf() to resolve ownership count.
-    mapping (uint32 => Signature[]) _signaturesOf;
+    // @dev A mapping from user_id to signatures that this user made.
+    mapping (uint32 => Signature[]) _signaturesOfUser;
 
-    // @dev A mapping from owner address to count of tokens that address owns.
-    //  Used internally inside balanceOf() to resolve ownership count.
+    // @dev A mapping from repo_id to signatures.
     mapping (uint32 => Signature[]) _signaturesOfRepo;
     
-    /// @dev An internal method that creates a new kitty and stores it. This
+    /// @dev An internal method that creates a new signature and stores it. This
     ///  method doesn't do any checking and should only be called when the
-    ///  input data is known to be valid. Will generate both a Birth event
-    ///  and a Transfer event.
-    /// @param _username The kitty ID of the matron of this cat (zero for gen0)
-    /// @param _user_id The kitty ID of the sire of this cat (zero for gen0)
-    /// @param _comment_id The generation number of this cat, must be computed by caller.
-    /// @param _repo_id The github repo_id
+    ///  input data is known to be valid.
+    /// @param _username The GitHub username
+    /// @param _user_id The GtHub user_id
+    /// @param _comment_id The GutHub comment_id
+    /// @param _repo_id The GitHub repo_id
     /// @param _pull_request_no The repo pull request no
-    /// @param _created_at The kitty's genetic code.
-    /// @param _updated_at The inital owner of this cat, must be non-zero (except for the unKitty, ID 0)
+    /// @param _created_at The timestamp of creation.
+    /// @param _updated_at The timestamp of the last update.
     function _createSignature(
         string memory _username,
         uint32 _user_id,
@@ -62,7 +58,7 @@ contract SignatureBase is SignatureAccessControl {
         returns (uint)
     {
         // These requires are not strictly necessary, our calling code should make
-        // sure that these conditions are never broken. However! _createKitty() is already
+        // sure that these conditions are never broken. However! _createSignature() is already
         // an expensive call (for storage), and it doesn't hurt to be especially careful
         // to ensure our data structures are always valid.
         //require(_matronId == uint256(uint32(_matronId)));
@@ -80,22 +76,20 @@ contract SignatureBase is SignatureAccessControl {
         });
         uint256 newSignatureId = signatures.push(_signature) - 1;
 
-        // It's probably never going to happen, 4 billion cats is A LOT, but
+        // It's probably never going to happen, 2^64 signatures is A LOT, but
         // let's just be 100% sure we never let this happen.
-        //require(newKittenId == uint256(uint32(newKittenId)));
+        require(newSignatureId == uint256(uint64(newSignatureId)));
 
-        // emit the birth event
+        // emit the signed event
         emit Signed(
             _username,
             _user_id,
             newSignatureId
         );
 
-        // This will assign ownership, and also emit the Transfer event as
-        // per ERC721 draft
-        // transfer(cooAddress, newSignatureId);
+        // This will create a mapping of the signature onto the user and repo
 
-        _signaturesOf[_user_id].push(_signature);
+        _signaturesOfUser[_user_id].push(_signature);
         _signaturesOfRepo[_repo_id].push(_signature);
 
         return newSignatureId;
