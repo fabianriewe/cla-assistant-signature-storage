@@ -81,11 +81,9 @@ app.post("/webhook", async (req, res) => {
 });
 
 const mnemonic = process.env.MNEMONIC;
-const ropstenEndpoint = process.env.ROPSTEN;
+const endpoint = process.env.ENDPOINT;
 // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-truffle_connect.web3 = new Web3(
-  new HDWalletProvider(mnemonic, ropstenEndpoint)
-);
+truffle_connect.web3 = new Web3(new HDWalletProvider(mnemonic, endpoint));
 
 // Export your express server so you can import it in the lambda function.
 module.exports = app;

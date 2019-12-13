@@ -5,10 +5,8 @@ require("dotenv").config();
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 const mnemonic = process.env.MNEMONIC;
-const ropstenEndpoint = process.env.ROPSTEN;
-truffle_connect.web3 = new Web3(
-  new HDWalletProvider(mnemonic, ropstenEndpoint)
-);
+const endpoint = process.env.ENDPOINT;
+truffle_connect.web3 = new Web3(new HDWalletProvider(mnemonic, endpoint));
 
 exports.handler = async (event, context, callback) => {
   console.log("event: ", JSON.stringify(event));
