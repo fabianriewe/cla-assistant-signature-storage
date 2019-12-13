@@ -11,11 +11,9 @@ provider:
       Action:
         - "sqs:SendMessage"
         - "sqs:GetQueueUrl"
-      Resource: "arn:aws:sqs:eu-central-1:941344685665:CLA-DAPP-DEV"
-    - Effect: "Allow"
-      Action:
         - "sqs:ListQueues"
-      Resource: "arn:aws:sqs:eu-central-1:941344685665:CLA-DAPP-DEV"
+      Resource:
+        Fn::GetAtt: [SQSQueue, ARN]
 
 functions:
   app:
@@ -23,23 +21,24 @@ functions:
     events:
       - http: ANY /
       - http: "ANY {proxy+}"
-  createSignature:
+  postEndpoint:
     handler: lambda.handler
     events:
       - http:
           path: /webhook
           method: post
-          async: false # default is false
-  signatureCreator:
+  queueWorker:
     handler: sqsWorker.handler
+    timeout: 300 # set higher timeout for transaction
     events:
       - sqs:
-          arn: "arn:aws:sqs:eu-central-1:941344685665:CLA-DAPP-DEV"
+          arn:
+            Fn::GetAtt: [SQSQueue, ARN]
           batchSize: 1
 
 resources:
   Resources:
-    MyQueue:
+    SQSQueue:
       Type: "AWS::SQS::Queue"
       Properties:
         QueueName: "CLA-DAPP-DEV"

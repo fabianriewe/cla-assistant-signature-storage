@@ -1,4 +1,4 @@
-# CLA-Assistant Signature Storage
+# CLA-Assistant: Signature Storage
 
 ## Overview
 
