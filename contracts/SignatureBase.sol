@@ -29,10 +29,10 @@ contract SignatureBase is SignatureAccessControl {
     
     Signature[] signatures;
 
-    // @dev A mapping from user_id to signatures that this user made.
+    /// @dev A mapping from user_id to signatures that this user made.
     mapping (uint32 => Signature[]) _signaturesOfUser;
 
-    // @dev A mapping from repo_id to signatures.
+    /// @dev A mapping from repo_id to signatures.
     mapping (uint32 => Signature[]) _signaturesOfRepo;
     
     /// @dev An internal method that creates a new signature and stores it. This

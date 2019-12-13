@@ -7,10 +7,9 @@ contract Signature is SignatureBase {
     
     address public newContractAddress;
 
-    constructor() public  {
+    constructor() public {
         paused = false;
         ceoAddress = msg.sender;
-        cooAddress = msg.sender;
     }
     
     /// @dev Used to mark the smart contract as upgraded, in case there is a serious
@@ -19,20 +18,11 @@ contract Signature is SignatureBase {
     ///  contract to update to the new contract address in that case. (This contract will
     ///  be paused indefinitely if such an upgrade takes place.)
     /// @param _v2Address new address
-    function setNewAddress(address _v2Address) external onlyCEO whenPaused {
+    function setNewAddress(address _v2Address) external restricted whenPaused {
         // See README.md for updgrade plan
         newContractAddress = _v2Address;
         emit ContractUpgrade(_v2Address);
     }
-    
-    /// @notice No tipping!
-    /// @dev Reject all Signatures from being sent here, unless it's from one of the
-    ///  two auction contracts. (Hopefully, we can prevent user accidents.)
-    //function() external payable {
-        //require(
-        //    msg.sender == address(cooAddress)
-        //);
-    //}
 
     /// @notice Returns all the signature based on a user_id.
     /// @param _user_id The ID of the user of interest.
@@ -87,7 +77,7 @@ contract Signature is SignatureBase {
         uint64 _updated_at
     )
         public
-        onlyCEO
+        restricted
         whenNotPaused
         returns (uint)
     {

@@ -5,14 +5,14 @@ provider:
   runtime: nodejs10.x
   region: eu-central-1
   profile: hrholding
-  timeout: 30 # set timeout to same timeout as api gateway
-  iamRoleStatements:
+  timeout: 30 # set default timeout to same timeout as api gateway
+  iamRoleStatements: # allow access to sqs queue
     - Effect: "Allow"
       Action:
         - "sqs:SendMessage"
         - "sqs:GetQueueUrl"
         - "sqs:ListQueues"
-      Resource:
+      Resource: # dynamic loading of sqs queue arn
         Fn::GetAtt: [SQSQueue, ARN]
 
 functions:
@@ -29,13 +29,14 @@ functions:
           method: post
   queueWorker:
     handler: sqsWorker.handler
-    timeout: 300 # set higher timeout for transaction
+    timeout: 300 # set higher timeout for transaction higher
     events:
       - sqs:
           arn:
             Fn::GetAtt: [SQSQueue, ARN]
           batchSize: 1
 
+# define the AWS resources here
 resources:
   Resources:
     SQSQueue:
