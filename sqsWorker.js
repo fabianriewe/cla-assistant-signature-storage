@@ -24,7 +24,7 @@ exports.handler = async (event, context, callback) => {
     );
   }
 
-  var body = event.Records[0].body;
+  const body = event.Records[0].body;
   console.log("text: ", JSON.parse(body).text);
   const response = {
     statusCode: 200,

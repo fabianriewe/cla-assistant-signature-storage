@@ -8,9 +8,9 @@ const Web3 = require("web3");
 require("dotenv").config();
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
-var aws = require("aws-sdk");
-var queueUrl = process.env.SQS_QUEUE_URL;
-var sqs = new aws.SQS();
+const aws = require("aws-sdk");
+const queueUrl = process.env.SQS_QUEUE_URL;
+const sqs = new aws.SQS();
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -47,14 +47,13 @@ app.post("/webhook", async (req, res) => {
   let signatures = [];
   console.log(req.body);
   for (let signature of req.body) {
-    let username = signature.name;
-    let user_id = signature.id;
-    let comment_id = signature.comment_id;
-    let repo_id = signature.repoId;
-    let pull_request_no = signature.pullRequestNo;
-    if (!pull_request_no) pull_request_no = 0; // temporary fix
-    let created_at = new Date(signature.created_at).getTime();
-    let updated_at = new Date(signature.updated_at).getTime();
+    const username = signature.name;
+    const user_id = signature.id;
+    const comment_id = signature.comment_id;
+    const repo_id = signature.repoId;
+    const pull_request_no = signature.pullRequestNo;
+    const created_at = new Date(signature.created_at).getTime();
+    const updated_at = new Date(signature.updated_at).getTime();
     signatures.push({
       username: username,
       user_id: user_id,

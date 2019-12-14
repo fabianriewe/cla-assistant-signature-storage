@@ -24,12 +24,8 @@ require("dotenv").config();
 const Web3 = require("web3");
 const web3 = new Web3();
 
-// const mnemonic = getEnv("ETH_WALLET_MNEMONIC");
-// const liveNetwork = getEnv("ETH_LIVE_NETWORK");
-// const liveNetworkId = getEnv("ETH_LIVE_NETWORK_ID");
-
 const mnemonic = process.env.MNEMONIC;
-const ropstenEndpoint = process.env.ROPSTEN;
+const endpoint = process.env.ENDPOINT;
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -55,7 +51,7 @@ module.exports = {
     },
     ropsten: {
       provider: function() {
-        return new HDWalletProvider(mnemonic, ropstenEndpoint);
+        return new HDWalletProvider(mnemonic, endpoint);
       },
       network_id: 3,
       gasPrice: web3.utils.toWei("5", "gwei")
