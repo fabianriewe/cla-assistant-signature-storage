@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js",
+    "start": "nodemon app.local.js",
     "serve:ropsten": "truffle exec server.js --network ropsten",
     "serve:chain": "truffle develop"
   },
@@ -14,6 +14,7 @@
   "dependencies": {
     "@truffle/contract": "^4.1.1",
     "@truffle/hdwallet-provider": "^1.0.26",
+    "argparse": "^1.0.10",
     "aws-sdk": "^2.587.0",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",

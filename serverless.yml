@@ -13,27 +13,27 @@ provider:
         - "sqs:GetQueueUrl"
         - "sqs:ListQueues"
       Resource: # dynamic loading of sqs queue arn
-        Fn::GetAtt: [SQSQueue, ARN]
+        Fn::GetAtt: [SQSQueue, Arn]
 
 functions:
   app:
-    handler: lambda.handler
+    handler: ./src/lambda.handler
     events:
       - http: ANY /
       - http: "ANY {proxy+}"
   postEndpoint:
-    handler: lambda.handler
+    handler: ./src/lambda.handler
     events:
       - http:
           path: /webhook
           method: post
   queueWorker:
-    handler: sqsWorker.handler
-    timeout: 300 # set higher timeout for transaction higher
+    handler: ./src/sqsWorker.handler
+    timeout: 300 # set higher timeout for transaction
     events:
       - sqs:
           arn:
-            Fn::GetAtt: [SQSQueue, ARN]
+            Fn::GetAtt: [SQSQueue, Arn]
           batchSize: 1
 
 # define the AWS resources here

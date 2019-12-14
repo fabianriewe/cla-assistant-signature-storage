@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
-const truffle_connect = require("./connection/app.js");
+const truffle_connect = require("./connection.js");
 const Web3 = require("web3");
 require("dotenv").config();
 const HDWalletProvider = require("@truffle/hdwallet-provider");
@@ -64,15 +64,15 @@ app.post("/webhook", async (req, res) => {
       updated_at: updated_at
     });
   }
-  var params = {
+  const params = {
     MessageBody: JSON.stringify(signatures),
     QueueUrl: queueUrl,
     DelaySeconds: 0
   };
 
-  sqs.sendMessage(params, function(err, data) {
+  sqs.sendMessage(params, (err, data) => {
     if (err) {
-      res.send(err);
+      res.status(500).send(err);
     } else {
       res.send(data);
     }

@@ -1,5 +1,5 @@
 // Load the AWS SDK for Node.js
-const truffle_connect = require("./connection/app.js");
+const truffle_connect = require("./connection.js");
 const Web3 = require("web3");
 require("dotenv").config();
 const HDWalletProvider = require("@truffle/hdwallet-provider");
@@ -24,8 +24,6 @@ exports.handler = async (event, context, callback) => {
     );
   }
 
-  const body = event.Records[0].body;
-  console.log("text: ", JSON.parse(body).text);
   const response = {
     statusCode: 200,
     body: JSON.stringify({
