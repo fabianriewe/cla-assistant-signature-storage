@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.local.js",
     "serve:ropsten": "truffle exec server.js --network ropsten",
-    "serve:chain": "truffle develop"
+    "serve:chain": "truffle develop",
+    "solidity-docgen": "solidity-docgen"
   },
   "author": "Fabian Riewe",
   "license": "MIT",
@@ -22,5 +23,8 @@
     "nodemon": "^2.0.1",
     "serverless-http": "^2.3.0",
     "web3": "^1.2.4"
+  },
+  "devDependencies": {
+    "solidity-docgen": "^0.3.13"
   }
 }
