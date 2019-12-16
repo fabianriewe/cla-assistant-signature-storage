@@ -7,7 +7,7 @@ const truffle_connect = require("./connection.js");
 const Web3 = require("web3");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 
 const aws = require("aws-sdk");
 const queueUrl = process.env.SQS_QUEUE_URL;
