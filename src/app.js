@@ -5,12 +5,18 @@ const cors = require("cors");
 const app = express();
 const truffle_connect = require("./connection.js");
 const Web3 = require("web3");
-require("dotenv").config();
 const HDWalletProvider = require("@truffle/hdwallet-provider");
+
+require("dotenv").config({ path: "../.env" });
 
 const aws = require("aws-sdk");
 const queueUrl = process.env.SQS_QUEUE_URL;
 const sqs = new aws.SQS();
+
+const mnemonic = process.env.MNEMONIC;
+const endpoint = process.env.ENDPOINT;
+
+truffle_connect.web3 = new Web3(new HDWalletProvider(mnemonic, endpoint));
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -78,11 +84,6 @@ app.post("/webhook", async (req, res) => {
     }
   });
 });
-
-const mnemonic = process.env.MNEMONIC;
-const endpoint = process.env.ENDPOINT;
-// fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-truffle_connect.web3 = new Web3(new HDWalletProvider(mnemonic, endpoint));
 
 // Export your express server so you can import it in the lambda function.
 module.exports = app;
