@@ -16,7 +16,7 @@ module.exports = {
       return signature;
     } catch (error) {
       console.log(error);
-      return "Error 404";
+      return "Error 500: " + error;
     }
   },
   getSignaturesOfUser: async function(user_id) {
@@ -31,7 +31,7 @@ module.exports = {
       return signatures;
     } catch (error) {
       console.log(error);
-      return "Error 404";
+      return "Error 500: " + error;
     }
   },
   getSignaturesOfRepo: async function(repo_id) {
@@ -46,7 +46,7 @@ module.exports = {
       return signatures;
     } catch (error) {
       console.log(error);
-      return "Error 404";
+      return "Error 500: " + error;
     }
   },
   createSignature: async function(
@@ -81,7 +81,7 @@ module.exports = {
       return signatureId;
     } catch (error) {
       console.log(error);
-      return "Error 404";
+      return "Error 500: " + error;
     }
   },
   paused: async function() {
@@ -96,7 +96,7 @@ module.exports = {
       return paused;
     } catch (error) {
       console.log(error);
-      return "Error 404";
+      return "Error 500: " + error;
     }
   }
 };

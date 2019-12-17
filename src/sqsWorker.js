@@ -13,15 +13,26 @@ exports.handler = async (event, context, callback) => {
 
   for (let signature of JSON.parse(event.Records[0].body)) {
     console.log("Signature: " + signature);
-    let signatureId = await truffle_connect.createSignature(
-      signature.username,
-      signature.user_id,
-      signature.comment_id,
-      signature.repo_id,
-      signature.pull_request_no,
-      signature.created_at,
-      signature.updated_at
-    );
+    try {
+      let signatureId = await truffle_connect.createSignature(
+        signature.username,
+        signature.user_id,
+        signature.comment_id,
+        signature.repo_id,
+        signature.pull_request_no,
+        signature.created_at,
+        signature.updated_at
+      );
+    } catch (error) {
+      const response = {
+        statusCode: 500,
+        body: JSON.stringify({
+          message: "Internal Error: " + error,
+          input: event
+        })
+      };
+      return response;
+    }
   }
 
   const response = {

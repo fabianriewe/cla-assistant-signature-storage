@@ -10,7 +10,7 @@ which would provide a cheap and non reversible storage for a signature. Whenever
 
 - AWS Account (when run in serverless mode)
 - Ethereum Wallet (when deployed on ethereum-blockchain)
-- Blockchain Access (ganache, infura, etc.)
+- Blockchain Access (ganache, infura, truffle develop, etc.)
 
 ## Smart Contract
 
@@ -20,7 +20,7 @@ Use `npm run soldity-docgen` to regenerate the docs.
 ## Setup
 
 1. In `src` create a `.env`-File (EDIT: a better solution is WIP)
-2. Add the follwing varivables:
+2. Add the follwing variables:
 3. Run `truffle migrate` (Note: When deploying to ropsten network use `--network ropsten`)
 4. In `serverless.yml` setup your AWS profile or add your credentials
 5. Run `sls deploy`
