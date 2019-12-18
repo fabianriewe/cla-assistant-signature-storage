@@ -66,22 +66,20 @@ contract Signature is SignatureBase {
     /// @param _repo_id The GitHub repo_id
     /// @param _pull_request_no The repo pull request no
     /// @param _created_at The timestamp of creation.
-    /// @param _updated_at The timestamp of the last update.
     function createSignature(
         string memory _username,
         uint32 _user_id,
         uint32 _comment_id,
         uint32 _repo_id,
         uint32 _pull_request_no,
-        uint64 _created_at,
-        uint64 _updated_at
+        uint64 _created_at
     )
         public
         restricted
         whenNotPaused
         returns (uint)
     {
-        uint256 newSignatureId = _createSignature(_username, _user_id, _comment_id, _repo_id, _pull_request_no,_created_at, _updated_at);
+        uint256 newSignatureId = _createSignature(_username, _user_id, _comment_id, _repo_id, _pull_request_no,_created_at);
         return newSignatureId;
     }
 }

@@ -22,9 +22,8 @@ contract SignatureBase is SignatureAccessControl {
         // repo pull request
         uint32 pull_request_no;
 
-        // timestamp of created_at and updated_at.
+        // timestamp of created_at.
         uint64 created_at;
-        uint64 updated_at;
     }
     
     Signature[] signatures;
@@ -44,15 +43,13 @@ contract SignatureBase is SignatureAccessControl {
     /// @param _repo_id The GitHub repo_id
     /// @param _pull_request_no The repo pull request no
     /// @param _created_at The timestamp of creation.
-    /// @param _updated_at The timestamp of the last update.
     function _createSignature(
         string memory _username,
         uint32 _user_id,
         uint32 _comment_id,
         uint32 _repo_id,
         uint32 _pull_request_no,
-        uint64 _created_at,
-        uint64 _updated_at
+        uint64 _created_at
     )
         internal
         returns (uint)
@@ -71,8 +68,7 @@ contract SignatureBase is SignatureAccessControl {
             comment_id: _comment_id,
             repo_id: _repo_id,
             pull_request_no: _pull_request_no,
-            created_at: _created_at,
-            updated_at: _updated_at
+            created_at: _created_at
         });
         uint256 newSignatureId = signatures.push(_signature) - 1;
 

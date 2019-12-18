@@ -16,15 +16,13 @@ sqsRouter.post("/webhook", async (req, res) => {
     const repo_id = signature.repoId;
     const pull_request_no = signature.pullRequestNo;
     const created_at = new Date(signature.created_at).getTime();
-    const updated_at = new Date(signature.updated_at).getTime();
     signatures.push({
       username: username,
       user_id: user_id,
       comment_id: comment_id,
       repo_id: repo_id,
       pull_request_no: pull_request_no,
-      created_at: created_at,
-      updated_at: updated_at
+      created_at: created_at
     });
   }
   const params = {

@@ -20,8 +20,7 @@ exports.handler = async (event, context, callback) => {
         signature.comment_id,
         signature.repo_id,
         signature.pull_request_no,
-        signature.created_at,
-        signature.updated_at
+        signature.created_at
       );
     } catch (error) {
       const response = {

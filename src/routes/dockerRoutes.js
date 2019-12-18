@@ -11,7 +11,6 @@ dockerRouter.post("/webhook", async (req, res) => {
     const repo_id = signature.repoId;
     const pull_request_no = signature.pullRequestNo;
     const created_at = new Date(signature.created_at).getTime();
-    const updated_at = new Date(signature.updated_at).getTime();
     try {
       let signatureId = await truffle_connect.createSignature(
         username,
@@ -19,8 +18,7 @@ dockerRouter.post("/webhook", async (req, res) => {
         comment_id,
         repo_id,
         pull_request_no,
-        created_at,
-        updated_at
+        created_at
       );
     } catch (error) {
       return response;

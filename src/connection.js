@@ -55,8 +55,7 @@ module.exports = {
     comment_id,
     repo_id,
     pull_request_no,
-    created_at,
-    updated_at
+    created_at
   ) {
     console.log("CREATING SIGNATURE FOR: " + username);
     // Bootstrap the Signature abstraction for Use.
@@ -73,7 +72,6 @@ module.exports = {
         repo_id,
         pull_request_no,
         created_at,
-        updated_at,
         { from: ceoAccount }
       );
       console.log("CREATED!");
