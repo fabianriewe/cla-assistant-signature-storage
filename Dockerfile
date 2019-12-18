@@ -1,5 +1,5 @@
 FROM node:12-alpine
-RUN apk update && apk upgrade && apk add --no-cache bash git openssh
+RUN apk update && apk upgrade && apk add --no-cache bash git openssh python
 COPY package.json .
 RUN npm install
 RUN npm install truffle
