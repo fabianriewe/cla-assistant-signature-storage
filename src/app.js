@@ -18,7 +18,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const deafultRouter = require("./routes/deafultRoutes");
+const deafultRouter = require("./routes/defaultRoutes");
 
 app.use(deafultRouter);
 

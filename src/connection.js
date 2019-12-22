@@ -27,7 +27,7 @@ module.exports = {
 
     try {
       let instance = await Signature.deployed();
-      let signatures = await instance.getSignaturesOf(user_id);
+      let signatures = await instance.getSignaturesOfUser(user_id);
       return signatures;
     } catch (error) {
       console.log(error);
