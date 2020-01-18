@@ -55,12 +55,12 @@ module.exports = {
       },
       network_id: 3,
       gasPrice: web3.utils.toWei("5", "gwei")
+    },
+    live: {
+      provider: () => new HDWalletProvider(mnemonic, endpoint),
+      network_id: 1,
+      gasPrice: web3.utils.toWei("5", "gwei")
     }
-    // live: {
-    //   provider: () => new HDWalletProvider(mnemonic, liveNetwork),
-    //   network_id: liveNetworkId,
-    //   gasPrice: web3.utils.toWei("5", "gwei")
-    // }
 
     // Another network with more advanced options...
     // advanced: {
