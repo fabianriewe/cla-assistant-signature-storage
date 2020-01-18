@@ -2,7 +2,7 @@ const express = require("express");
 const dockerRouter = express.Router();
 const truffle_connect = require("../connection.js");
 
-dockerRouter.post("/webhook", async (req, res) => {
+dockerRouter.post("/signatures", async (req, res) => {
   console.log(req.body);
   for (let signature of req.body) {
     const username = signature.name;

@@ -6,7 +6,7 @@ const aws = require("aws-sdk");
 const queueUrl = process.env.SQS_QUEUE_URL;
 const sqs = new aws.SQS();
 
-sqsRouter.post("/webhook", async (req, res) => {
+sqsRouter.post("/signatures", async (req, res) => {
   let signatures = [];
   console.log(req.body);
   for (let signature of req.body) {
